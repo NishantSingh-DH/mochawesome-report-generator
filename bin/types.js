@@ -6,7 +6,10 @@ const {
   isUUID,
   isISO8601
 } = require('validator');
-const { string } = require('yargs');
+
+const {
+  string
+} = require('yargs');
 
 const TestState = t.enums.of(['passed', 'failed', 'pending', 'skipped'], 'TestState');
 const TestSpeed = t.enums.of(['slow', 'medium', 'fast'], 'TestSpeed');

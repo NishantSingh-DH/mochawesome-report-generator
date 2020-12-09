@@ -48,7 +48,7 @@ class ReportStore {
       [filter]: this[filter],
     }), {})
     const location = window.location.href;
-    const queryParams = location.contains('?') ? location.split('?')[1]: false;
+    const queryParams = location.includes('?') ? location.split('?')[1]: false;
     const queryFilters = queryParams ? queryParams.split('&') : [];
     queryFilters.forEach(filter => {
       const [key, value] = filter.split('=');
