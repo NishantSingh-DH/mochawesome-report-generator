@@ -33,6 +33,7 @@ class ReportStore {
         config.showSkipped !== undefined ? config.showSkipped : false,
       singleFilter: null,
       sideNavOpen: false,
+      currentSquadFilter: 'ALL'
     }, {
       filteredSuites: observable.shallow
     });
@@ -46,6 +47,14 @@ class ReportStore {
       ...acc,
       [filter]: this[filter],
     }), {})
+    const queryParams = window.location.href.split('?')[1];
+    const queryFilters = queryParams.split('&');
+    queryFilters.forEach(filter => {
+      const [key, value] = filter.split('=');
+      if(key === 'squad'){
+        this.currentSquadFilter = this.stats.squads.includes(value) ? value : this.currentSquadFilter;
+      }
+    })
   }
 
   @action.bound
@@ -64,6 +73,11 @@ class ReportStore {
     // Clear single filter prop
     this.singleFilter = null;
     this[prop] = !this[prop];
+  }
+
+  @action.bound
+  setSquadFilter(squad) {
+    this.currentSquadFilter = squad;
   }
 
   @action.bound
@@ -112,7 +126,8 @@ class ReportStore {
     ((this.showPassed && test.pass) ||
       (this.showFailed && test.fail) ||
       (this.showPending && test.pending) ||
-      (this.showSkipped && test.skipped)) &&
+      (this.showSkipped && test.skipped)) && 
+      (this.currentSquadFilter === 'ALL' || this.currentSquadFilter === test.squad) &&
     test;
 
   _mapSuite = suite => {

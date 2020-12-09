@@ -5,7 +5,7 @@ const Mocha = require('mocha');
 
 // Instantiate a Mocha instance with mochawesome reporter
 const mocha = new Mocha({
-  reporter: '../mochawesome', // path relative to cwd
+  reporter: 'mochawesome', // path relative to cwd
   reporterOptions: {
     dev: true,
     overwrite: true,

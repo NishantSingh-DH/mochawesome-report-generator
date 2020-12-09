@@ -1,7 +1,7 @@
 /* eslint-disable no-console, no-undef */
 const chai = require('chai');
 const faker = require('faker');
-const addContext = require('../../mochawesome/addContext');
+const addContext = require('mochawesome/addContext');
 
 chai.should();
 

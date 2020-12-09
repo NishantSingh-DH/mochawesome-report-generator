@@ -155,6 +155,7 @@
   align-items: center;
   padding: 3px 0;
   color: var(--gray);
+  cursor: pointer;
 
   &:hover {
     color: var(--link-hover-color);
@@ -196,7 +197,6 @@
 
 .disabled {
   opacity: 0.3;
-  pointer-events: none;
 }
 
 /* Tablet 768 and up */

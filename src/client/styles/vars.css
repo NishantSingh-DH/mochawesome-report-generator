@@ -72,7 +72,7 @@
   --list-group-border: #ddd;
 
   /* Type */
-  --font-family-sans-serif: 'robotoregular', 'Helvetica Neue', Helvetica, Arial,
+  --font-family-sans-serif:  'Helvetica Neue', Helvetica, Arial,
     sans-serif;
   --font-family-base: var(--font-family-sans-serif);
   --font-family-mono: 'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace;

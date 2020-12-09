@@ -22,6 +22,7 @@ class ReportBody extends React.Component {
           showPending,
           showSkipped,
           showHooks,
+          currentSquadFilter
         } = this.props.reportStore;
         return {
           showPassed,
@@ -29,6 +30,7 @@ class ReportBody extends React.Component {
           showPending,
           showSkipped,
           showHooks,
+          currentSquadFilter
         };
       },
       () => this.updateSuites(0),

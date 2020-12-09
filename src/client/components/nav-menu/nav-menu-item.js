@@ -1,9 +1,10 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import isEqual from 'lodash/isEqual';
-import isEmpty from 'lodash/isEmpty';
 import { Icon } from 'components';
-import { NavMenuList } from 'components/nav-menu';
 import classNames from 'classnames/bind';
 import styles from './nav-menu.css';
 
@@ -11,11 +12,9 @@ const cx = classNames.bind(styles);
 
 class NavMenuItem extends Component {
   static propTypes = {
-    suite: PropTypes.object,
-    showPassed: PropTypes.bool,
-    showFailed: PropTypes.bool,
-    showPending: PropTypes.bool,
-    showSkipped: PropTypes.bool,
+    squad: PropTypes.string,
+    setSquadFilter: PropTypes.func,
+    currentSquadFilter: PropTypes.string
   };
 
   shouldComponentUpdate(nextProps) {
@@ -24,73 +23,24 @@ class NavMenuItem extends Component {
 
   render() {
     const {
-      suite,
-      showPassed,
-      showFailed,
-      showPending,
-      showSkipped,
+      squad,
+      setSquadFilter,
+      currentSquadFilter
     } = this.props;
-    const { suites, uuid, title } = suite;
-    const navItemProps = { showPassed, showFailed, showPending, showSkipped };
 
-    const hasTests = !isEmpty(suite.tests);
-    const hasPasses = !isEmpty(suite.passes);
-    const hasFailures = !isEmpty(suite.failures);
-    const hasPending = !isEmpty(suite.pending);
-    const hasSkipped = !isEmpty(suite.skipped);
-
-    const fail = hasTests && hasFailures;
-    const pend = hasTests && hasPending && !hasFailures;
-    const skip = hasTests && hasSkipped && !hasFailures && !hasPending;
-    const pass =
-      hasTests && hasPasses && !hasFailures && !hasPending && !hasSkipped;
-
-    const shouldBeDisabled = () => {
-      let count = 0;
-      if (!hasTests && suites) count += 1;
-      if (hasPasses) count += 1;
-      if (hasFailures) count += 1;
-      if (hasPending) count += 1;
-      if (hasSkipped) count += 1;
-
-      if (!showSkipped && hasSkipped) count -= 1;
-      if (!showPending && hasPending) count -= 1;
-      if (!showFailed && hasFailures) count -= 1;
-      if (!showPassed && hasPasses) count -= 1;
-      if (
-        !showSkipped &&
-        !showPending &&
-        !showFailed &&
-        !showPassed &&
-        !hasTests
-      )
-        count -= 1;
-
-      return count <= 0;
+    const isActive = () => {
+      return squad === currentSquadFilter;
     };
 
     const anchorCxName = cx('link', {
-      disabled: shouldBeDisabled(),
+      disabled: !isActive(),
     });
 
     const suiteIcon = () => {
-      let iconName;
-      let iconClassName;
-      if (pass) {
-        iconName = 'check';
-        iconClassName = 'pass';
-      }
-      if (skip) {
-        iconName = 'stop';
-        iconClassName = 'skipped';
-      }
-      if (pend) {
-        iconName = 'pause';
-        iconClassName = 'pending';
-      }
-      if (fail) {
-        iconName = 'close';
-        iconClassName = 'fail';
+      let iconName = 'visibility_off';
+      const iconClassName = 'pending';
+      if(isActive()){
+        iconName = 'visibility'
       }
       return (
         <Icon
@@ -101,36 +51,14 @@ class NavMenuItem extends Component {
       );
     };
 
-    const scrollToSuite = (e, suiteId) => {
-      e.preventDefault();
-      // Find element to scroll to
-      const suiteEl = document.getElementById(suiteId);
-      // Get its top value
-      const { top } = suiteEl.getBoundingClientRect();
-      // Get the details container and get its top padding
-      const detailsCnt = document.getElementById('details');
-      let topPad = window
-        .getComputedStyle(detailsCnt)
-        .getPropertyValue('padding-top');
-      topPad = parseInt(topPad, 10);
-      // Calc the y position to scroll to
-      // 4px offset due to shadow
-      const scrollY = document.body.scrollTop + top - (topPad + 4);
-      window.scrollTo(0, scrollY);
-    };
-
     return (
-      <li className={cx('item', { 'has-tests': hasTests })}>
+      <li className={cx('item', { 'has-tests': true })}>
         <a
-          href={`#${uuid}`}
           className={anchorCxName}
-          onClick={e => scrollToSuite(e, uuid)}
-          tabIndex={shouldBeDisabled() ? -1 : 0}>
+          onClick={() => setSquadFilter(squad)}>
           {suiteIcon()}
-          <span>{title === '' ? uuid : title}</span>
+          <span>{squad}</span>
         </a>
-        {suites &&
-          !!suites.length && <NavMenuList suites={suites} {...navItemProps} />}
       </li>
     );
   }

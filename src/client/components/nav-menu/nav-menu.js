@@ -29,6 +29,8 @@ class NavMenu extends Component {
       sideNavOpen: PropTypes.bool,
       stats: PropTypes.object,
       toggleFilter: PropTypes.func,
+      setSquadFilter: PropTypes.func,
+      currentSquadFilter: PropTypes.string
     }),
   };
 
@@ -71,7 +73,6 @@ class NavMenu extends Component {
 
   render() {
     const {
-      results,
       closeSideNav,
       reportTitle,
       setShowHooks,
@@ -84,6 +85,8 @@ class NavMenu extends Component {
       sideNavOpen,
       stats,
       toggleFilter,
+      setSquadFilter,
+      currentSquadFilter
     } = this.props.reportStore;
 
     const navItemProps = {
@@ -179,23 +182,29 @@ class NavMenu extends Component {
             />
           </div>
           <div className={cx('section')}>
-            {!!results &&
-              results.map(suite => (
-                <ul
-                  key={suite.uuid}
-                  className={cx('list', 'main', {
-                    'no-tests': !suite.tests || suite.tests.length === 0,
-                  })}>
-                  {!!suite.suites &&
-                    suite.suites.map(subSuite => (
-                      <NavMenuItem
-                        key={subSuite.uuid}
-                        suite={subSuite}
-                        {...navItemProps}
-                      />
-                    ))}
-                </ul>
-              ))}
+            <ul
+              key="squad-list"
+              className={cx('list', 'main', {
+                'no-tests': !stats.squads || stats.squads.length === 0,
+              })}>
+              <NavMenuItem
+                key='ALL'
+                squad='ALL'
+                setSquadFilter={setSquadFilter}
+                currentSquadFilter={currentSquadFilter}
+                {...navItemProps}
+              />
+              {!!stats.squads &&
+                stats.squads.map(squad => (
+                  <NavMenuItem
+                    key={squad}
+                    squad={squad}
+                    setSquadFilter={setSquadFilter}
+                    currentSquadFilter={currentSquadFilter}
+                    {...navItemProps}
+                  />
+                ))}
+            </ul>
           </div>
         </nav>
       </div>

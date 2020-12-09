@@ -55,6 +55,7 @@ class Test extends PureComponent {
       err,
       code,
       context,
+      squad
     } = test;
 
     const testIcon = () => {
@@ -104,7 +105,7 @@ class Test extends PureComponent {
       hook: isHook,
       inactive: isInactive,
       'with-context': !!context,
-    });
+    }, squad);
 
     const { expanded } = this.state;
 
