@@ -42,7 +42,7 @@ const Test = t.struct({
   skipped: t.Boolean,
   context: t.maybe(t.String),
   isHook: t.Boolean,
-  squad: string
+  squad: t.String
 });
 
 const Suite = t.declare('Suite');
@@ -84,7 +84,7 @@ const TestReport = t.struct({
     hasOther: t.Boolean,
     skipped: t.Integer,
     hasSkipped: t.Boolean,
-    squads: t.list
+    squads: t.list(t.String)
   }),
   results: t.list(Suite),
   meta: t.maybe(ReportMeta)

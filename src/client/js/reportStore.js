@@ -47,8 +47,9 @@ class ReportStore {
       ...acc,
       [filter]: this[filter],
     }), {})
-    const queryParams = window.location.href.split('?')[1];
-    const queryFilters = queryParams.split('&');
+    const location = window.location.href;
+    const queryParams = location.contains('?') ? location.split('?')[1]: false;
+    const queryFilters = queryParams ? queryParams.split('&') : [];
     queryFilters.forEach(filter => {
       const [key, value] = filter.split('=');
       if(key === 'squad'){

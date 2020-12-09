@@ -40,19 +40,19 @@ const plugins = [
   new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify(env) }),
 ];
 
-if (env === 'production') {
-  plugins.push(
-    new UglifyJsPlugin({
-      uglifyOptions: {
-        compress: { warnings: false },
-        output: {
-          comments: /^! mochawesome/,
-          inline_script: true,
-        },
-      },
-    })
-  );
-}
+// if (env === 'production') {
+//   plugins.push(
+//     new UglifyJsPlugin({
+//       uglifyOptions: {
+//         compress: { warnings: false },
+//         output: {
+//           comments: /^! mochawesome/,
+//           inline_script: true,
+//         },
+//       },
+//     })
+//   );
+// }
 
 module.exports = {
   mode: env,
