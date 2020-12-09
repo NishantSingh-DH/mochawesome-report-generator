@@ -1,5 +1,6 @@
 const t = require('tcomb');
 const { isUUID, isISO8601 } = require('validator');
+const { string } = require('yargs');
 
 const TestState = t.enums.of(
   ['passed', 'failed', 'pending', 'skipped'],
@@ -41,6 +42,7 @@ const Test = t.struct({
   skipped: t.Boolean,
   context: t.maybe(t.String),
   isHook: t.Boolean,
+  squad: string
 });
 
 const Suite = t.declare('Suite');
@@ -82,6 +84,7 @@ const TestReport = t.struct({
     hasOther: t.Boolean,
     skipped: t.Integer,
     hasSkipped: t.Boolean,
+    squads: t.list
   }),
   results: t.list(Suite),
   meta: t.maybe(ReportMeta)

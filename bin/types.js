@@ -6,6 +6,7 @@ const {
   isUUID,
   isISO8601
 } = require('validator');
+const { string } = require('yargs');
 
 const TestState = t.enums.of(['passed', 'failed', 'pending', 'skipped'], 'TestState');
 const TestSpeed = t.enums.of(['slow', 'medium', 'fast'], 'TestSpeed');
@@ -41,7 +42,8 @@ const Test = t.struct({
   parentUUID: t.maybe(Uuid),
   skipped: t.Boolean,
   context: t.maybe(t.String),
-  isHook: t.Boolean
+  isHook: t.Boolean,
+  squad: t.String
 });
 const Suite = t.declare('Suite');
 Suite.define(t.struct({
@@ -78,7 +80,8 @@ const TestReport = t.struct({
     other: t.Integer,
     hasOther: t.Boolean,
     skipped: t.Integer,
-    hasSkipped: t.Boolean
+    hasSkipped: t.Boolean,
+    squads: t.list(t.String)
   }),
   results: t.list(Suite),
   meta: t.maybe(ReportMeta)
