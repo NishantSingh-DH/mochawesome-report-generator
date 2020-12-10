@@ -58,6 +58,17 @@ class ReportStore {
     })
   }
 
+  setURL = squad => {
+    const location = window.location.href;
+    console.log('came here')
+    if(location.includes('?squad')){
+      window.history.replaceState(null, 'squad', `?squad=${squad}`);
+    }
+    else{
+      window.history.pushState(null, 'squad', `?squad=${squad}`);
+    }
+  }
+
   @action.bound
   openSideNav() {
     this.sideNavOpen = true;
@@ -79,6 +90,7 @@ class ReportStore {
   @action.bound
   setSquadFilter(squad) {
     this.currentSquadFilter = squad;
+    this.setURL(squad);
   }
 
   @action.bound
